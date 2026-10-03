@@ -1,24 +1,24 @@
 <div
-    class="min-h-screen bg-linear-to-br from-gray-400 via-gray-300 to-gray-700 pb-12"
+    class="min-h-screen bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200 pb-16"
 >
     <app-navbar></app-navbar>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="py-8">
-            <h1 class="text-gray-800 font-extrabold text-4xl">Admin Dashboard</h1>
-            <p class="text-gray-600 font-medium text-lg mt-2">
-                Manage sellers, users, and create seller accounts.
+        <div class="py-6 sm:py-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Admin Dashboard</h1>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">
+                Manage sellers, users, and create seller accounts
             </p>
         </div>
 
-        <div class="flex gap-2 mb-6 border-b border-gray-300 overflow-x-auto">
+        <div class="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto pb-0.5 scrollbar-none">
             <button
                 type="button"
                 (click)="setTab('allUsers')"
                 [class]="
                     activeTab() === 'allUsers'
-                        ? 'px-4 py-2 text-sm font-semibold text-blue-600 border-b-2 border-blue-600'
-                        : 'px-4 py-2 text-sm text-gray-500 hover:text-gray-700'
+                        ? 'px-4 py-2.5 text-xs sm:text-sm font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap cursor-pointer'
+                        : 'px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap cursor-pointer'
                 "
             >
                 All Users ({{ allUsers().length }})
@@ -29,11 +29,11 @@
                 (click)="setTab('users')"
                 [class]="
                     activeTab() === 'users'
-                        ? 'px-4 py-2 text-sm font-semibold text-blue-600 border-b-2 border-blue-600'
-                        : 'px-4 py-2 text-sm text-gray-500 hover:text-gray-700'
+                        ? 'px-4 py-2.5 text-xs sm:text-sm font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap cursor-pointer'
+                        : 'px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap cursor-pointer'
                 "
             >
-                Users ({{ users().length }})
+                Customers ({{ users().length }})
             </button>
 
             <button
@@ -41,8 +41,8 @@
                 (click)="setTab('sellers')"
                 [class]="
                     activeTab() === 'sellers'
-                        ? 'px-4 py-2 text-sm font-semibold text-blue-600 border-b-2 border-blue-600'
-                        : 'px-4 py-2 text-sm text-gray-500 hover:text-gray-700'
+                        ? 'px-4 py-2.5 text-xs sm:text-sm font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap cursor-pointer'
+                        : 'px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap cursor-pointer'
                 "
             >
                 Sellers ({{ sellers().length }})
@@ -53,8 +53,8 @@
                 (click)="setTab('createSellers')"
                 [class]="
                     activeTab() === 'createSellers'
-                        ? 'px-4 py-2 text-sm font-semibold text-blue-600 border-b-2 border-blue-600'
-                        : 'px-4 py-2 text-sm text-gray-500 hover:text-gray-700'
+                        ? 'px-4 py-2.5 text-xs sm:text-sm font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap cursor-pointer'
+                        : 'px-4 py-2.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap cursor-pointer'
                 "
             >
                 Create Seller
@@ -62,41 +62,48 @@
         </div>
 
         @if (errorMessage()) {
-            <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-sm font-medium">
+            <div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6 text-sm font-medium">
                 {{ errorMessage() }}
             </div>
         }
 
         @if (successMessage()) {
-            <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4 text-sm font-medium">
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl mb-6 text-sm font-medium">
                 {{ successMessage() }}
             </div>
         }
 
         @if (activeTab() === 'allUsers') {
             @if (allUsers().length === 0) {
-                <div class="text-center py-16 text-gray-800">
-                    <h2 class="font-medium text-2xl">No Users Found</h2>
+                <div class="text-center py-16 px-4 bg-white rounded-2xl shadow-sm border border-gray-100 my-4">
+                    <h2 class="font-bold text-xl sm:text-2xl text-gray-800">No Users Found</h2>
                 </div>
             } @else {
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     @for (user of allUsers(); track user.email) {
-                        <div class="bg-white rounded-xl p-5 shadow-sm border-gray-100 flex justify-between items-start">
-                            <div class="flex flex-col gap-1">
-                                <p class="font-semibold text-gray-800 text-base">
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
+                            <div class="flex flex-col gap-1 min-w-0 pr-2">
+                                <p class="font-bold text-gray-900 text-base truncate">
                                     {{ user.firstName }} {{ user.lastName }}
                                 </p>
-                                <p class="text-gray-500 text-sm">{{ user.email }}</p>
-                                <p class="text-xs text-blue-600 font-semibold uppercase mt-1">
-                                    {{ user.role }}
-                                </p>
+                                <p class="text-gray-500 text-xs sm:text-sm truncate">{{ user.email }}</p>
+                                <div class="mt-1">
+                                    <span class="px-2.5 py-0.5 text-xs font-bold rounded-md uppercase"
+                                        [ngClass]="{
+                                            'bg-purple-100 text-purple-700': user.role === 'ADMIN',
+                                            'bg-blue-100 text-blue-700': user.role === 'SELLER',
+                                            'bg-gray-100 text-gray-700': user.role === 'USER'
+                                        }">
+                                        {{ user.role }}
+                                    </span>
+                                </div>
                             </div>
                             @if (user.id) {
                                 <button
                                     type="button"
                                     title="Delete user"
                                     aria-label="Delete user"
-                                    class="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition cursor-pointer"
+                                    class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition cursor-pointer shrink-0"
                                     (click)="onDeleteUser(user.id)"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
@@ -112,25 +119,25 @@
 
         @if (activeTab() === 'users') {
             @if (users().length === 0) {
-                <div class="text-center py-16 text-gray-800">
-                    <h2 class="font-medium text-2xl">No Customers Found</h2>
+                <div class="text-center py-16 px-4 bg-white rounded-2xl shadow-sm border border-gray-100 my-4">
+                    <h2 class="font-bold text-xl sm:text-2xl text-gray-800">No Customers Found</h2>
                 </div>
             } @else {
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     @for (user of users(); track user.email) {
-                        <div class="bg-white rounded-xl p-5 shadow-sm border-gray-100 flex justify-between items-start">
-                            <div class="flex flex-col gap-1">
-                                <p class="font-semibold text-gray-800 text-base">
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
+                            <div class="flex flex-col gap-1 min-w-0 pr-2">
+                                <p class="font-bold text-gray-900 text-base truncate">
                                     {{ user.firstName }} {{ user.lastName }}
                                 </p>
-                                <p class="text-gray-500 text-sm">{{ user.email }}</p>
+                                <p class="text-gray-500 text-xs sm:text-sm truncate">{{ user.email }}</p>
                             </div>
                             @if (user.id) {
                                 <button
                                     type="button"
                                     title="Delete user"
                                     aria-label="Delete user"
-                                    class="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition cursor-pointer"
+                                    class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition cursor-pointer shrink-0"
                                     (click)="onDeleteUser(user.id)"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
@@ -146,25 +153,25 @@
 
         @if (activeTab() === 'sellers') {
             @if (sellers().length === 0) {
-                <div class="text-center py-16 text-gray-800">
-                    <h2 class="font-medium text-2xl">No Sellers Found</h2>
+                <div class="text-center py-16 px-4 bg-white rounded-2xl shadow-sm border border-gray-100 my-4">
+                    <h2 class="font-bold text-xl sm:text-2xl text-gray-800">No Sellers Found</h2>
                 </div>
             } @else {
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     @for (user of sellers(); track user.email) {
-                        <div class="bg-white rounded-xl p-5 shadow-sm border-gray-100 flex justify-between items-start">
-                            <div class="flex flex-col gap-1">
-                                <p class="font-semibold text-gray-800 text-base">
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
+                            <div class="flex flex-col gap-1 min-w-0 pr-2">
+                                <p class="font-bold text-gray-900 text-base truncate">
                                     {{ user.firstName }} {{ user.lastName }}
                                 </p>
-                                <p class="text-gray-500 text-sm">{{ user.email }}</p>
+                                <p class="text-gray-500 text-xs sm:text-sm truncate">{{ user.email }}</p>
                             </div>
                             @if (user.id) {
                                 <button
                                     type="button"
                                     title="Delete user"
                                     aria-label="Delete user"
-                                    class="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition cursor-pointer"
+                                    class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition cursor-pointer shrink-0"
                                     (click)="onDeleteUser(user.id)"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
@@ -179,7 +186,9 @@
         }
 
         @if (activeTab() === 'createSellers') {
-            <app-register [embeddedMode]="true"></app-register>
+            <div class="max-w-xl mx-auto">
+                <app-register [embeddedMode]="true"></app-register>
+            </div>
         }
     </div>
 </div>

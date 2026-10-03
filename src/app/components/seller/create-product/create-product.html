@@ -1,16 +1,19 @@
-<div class="min-h-screen bg-linear-to-br from-gray-400 via-gray-300 to-gray-700 pb-12">
+<div class="min-h-screen bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200 pb-16">
     <app-navbar></app-navbar>
 
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div class="py-8">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <h1 class="text-gray-800 font-extrabold text-4xl">
-                    {{ isEditMode() ? 'Edit Product' : 'Create Product' }}
-                </h1>
+        <div class="py-6 sm:py-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+                        {{ isEditMode() ? 'Edit Product' : 'Create Product' }}
+                    </h1>
+                    <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">Fill out product details for listing</p>
+                </div>
                 <button
                     (click)="backToProduct()"
                     type="button"
-                    class="seller-add-product-button">
+                    class="seller-add-product-button shadow-md hover:shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-5 w-5 shrink-0">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
@@ -22,34 +25,33 @@
 
     <div class="mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8">
         <form (ngSubmit)="onCreateProductFormSubmit()">
-            <div class="bg-gray-50 shadow-lg rounded-2xl p-6">
+            <div class="bg-white shadow-sm rounded-2xl p-5 sm:p-8 border border-gray-100">
 
                 @if(errorMessage()) {
-                <div class="flex items-center bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-medium mb-4">
+                <div class="flex items-center bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-medium mb-6">
                     {{ errorMessage() }}
                 </div>
             }
 
-
-                <div class="space-y-8">
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-2">Product Title</label>
-                        <input type="text" name="title" class="input-field" placeholder="Eg: Apple Iphone" [(ngModel)]="product.title">
+                        <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Product Title</label>
+                        <input type="text" name="title" class="input-field" placeholder="Eg: Apple iPhone 15" [(ngModel)]="product.title">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-2">Product Brand</label>
+                        <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Product Brand</label>
                         <input type="text" name="brand" class="input-field" placeholder="Eg: Apple" [(ngModel)]="product.brand">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-2">Product Model</label>
-                        <input type="text" name="model" class="input-field" placeholder="Eg: Iphone 17" [(ngModel)]="product.model">
+                        <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Product Model</label>
+                        <input type="text" name="model" class="input-field" placeholder="Eg: iPhone 15 Pro" [(ngModel)]="product.model">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-2">Product Category</label>
+                        <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Product Category</label>
                         <select name="category" class="input-field" [(ngModel)]="product.category">
                             <option value="">Select Category</option>
                             @for(item of categories; track item) {
@@ -60,32 +62,32 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-2">Product Description</label>
+                    <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Product Description</label>
                     <textarea name="description" rows="4" class="input-field" [(ngModel)]="product.description"
-                    placeholder="Detailed product description"></textarea>
+                    placeholder="Detailed product description..."></textarea>
                 </div>
 
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-2">Product Price</label>
-                        <input type="number" name="price" class="input-field" placeholder="Eg: 100" min="0" [(ngModel)]="product.price">
+                        <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Product Price (₹)</label>
+                        <input type="number" name="price" class="input-field" placeholder="Eg: 79999" min="0" [(ngModel)]="product.price">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-800 mb-2">Stock Quantity</label>
-                        <input type="number" name="stockQuantity" class="input-field" placeholder="Eg: 0" min="0" [(ngModel)]="product.stockQuantity">
+                        <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Stock Quantity</label>
+                        <input type="number" name="stockQuantity" class="input-field" placeholder="Eg: 25" min="0" [(ngModel)]="product.stockQuantity">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-2">Image URL</label>
+                    <label class="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">Image URL</label>
                     <input type="text" name="imageUrl" class="input-field" [(ngModel)]="product.imageUrl"
-                        placeholder="Enter a direct image URL">
+                        placeholder="Enter a direct image URL (https://...)">
                 </div>
 
-                <div class="pt-1">
+                <div class="pt-4">
                     <button
                         type="submit"
-                        class="flex w-full items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 active:scale-[0.98] cursor-pointer">
+                        class="flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3.5 text-sm sm:text-base font-bold text-white shadow-md transition hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none active:scale-[0.98] cursor-pointer">
                         <span>{{ isEditMode() ? 'Save Changes' : 'Create Product'}}</span>
                     </button>
                 </div>

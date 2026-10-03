@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { NavbarComponent } from '../shared/navbar/navbar';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -6,7 +7,7 @@ import { RegisterComponent } from '../auth/register/register';
 
 @Component({
   selector: 'app-admin',
-  imports: [NavbarComponent, RegisterComponent],
+  imports: [NavbarComponent, RegisterComponent, NgClass],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })

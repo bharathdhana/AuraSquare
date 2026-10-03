@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CartService } from '../../../services/cart.service';
@@ -23,12 +23,24 @@ export class NavbarComponent {
   readonly cartCount = this.cartService.cartItemsCount;
   readonly wishlistCount = this.wishlistService.wishlistCount;
 
+  readonly isMobileMenuOpen = signal(false);
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((open) => !open);
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
+  }
+
   logout(): void {
+    this.closeMobileMenu();
     this.authService.logout();
     this.router.navigate(['/auth/login']);
   }
 
   navigateTo(path: string): void {
+    this.closeMobileMenu();
     this.router.navigate([path]);
   }
 }
