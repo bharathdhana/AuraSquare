@@ -1,4 +1,4 @@
-# Estore Frontend
+# AuraSquare
 
 A full-featured e-commerce frontend built with **Angular 21**, **TypeScript**, and **Tailwind CSS**.
 
