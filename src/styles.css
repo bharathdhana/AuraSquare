@@ -1,3 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+.input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-700 focus:border-transparent outline-none transition
+}
+
+.btn {
+    @apply text-gray-700 hover:text-blue-600 cursor-pointer text-sm font-semibold py-2 px-1 border-b-2 border-transparent hover:border-blue-600 transition-colors duration-200 items-center
+}
+
+.second-btn {
+    @apply mt-auto flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50
+}
+
+.seller-add-product-button {
+    @apply inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 active:scale-[0.98] sm:w-auto
+}
+
+.shipping-input-field {
+  @apply w-full px-4 py-2 border rounded-lg focus:ring-1 focus:ring-gray-700 focus:border-transparent outline-none transition
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-slide-in {
+  animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

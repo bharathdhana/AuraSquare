@@ -1,59 +1,81 @@
-# Estore
+# Estore Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.24.
+A full-featured e-commerce frontend built with **Angular 21**, **TypeScript**, and **Tailwind CSS**.
 
-## Development server
+---
 
-To start a local development server, run:
+## 📌 Features
 
-```bash
-ng serve
+- **Authentication & Security**:
+  - JWT token-based authentication.
+  - Role-based route protection using functional Angular guards (`authGuard`, `guestGuard`, `adminGuard`, `sellerGuard`, `userGuard`).
+  - Auto-fill protection on seller registration forms.
+
+- **Customer Flow (`USER` role)**:
+  - Browse and search product catalog.
+  - Add items to Cart and Wishlist.
+  - Checkout and view Order history.
+
+- **Seller Flow (`SELLER` role)**:
+  - View seller product catalog.
+  - Add new products using direct image URLs (`imageUrl`).
+
+- **Admin Flow (`ADMIN` role)**:
+  - Dashboard to view all users, customers, and sellers.
+  - Delete user/seller accounts.
+  - Register new seller profiles.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js `v20+`
+- npm `v10+`
+- Running backend API (`ecommerce-api` on `http://localhost:8080`)
+
+### Installation & Run
+
+1. Navigate to the project directory:
+   ```bash
+   cd estore
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start dev server:
+   ```bash
+   npm start
+   ```
+   Navigate to `http://localhost:4200/`.
+
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 📁 Directory Structure
+
+```text
+src/app/
+├── components/
+│   ├── admin/             # Admin dashboard & account management
+│   ├── auth/              # Login & Register pages
+│   ├── cart/              # Cart management
+│   ├── checkout/          # Order checkout page
+│   ├── order-confirmation/ # Order confirmation view
+│   ├── order-item/        # Customer order history
+│   ├── products/          # Product catalog
+│   ├── seller/            # Seller product catalog & add-product page
+│   ├── shared/            # Dynamic role-based Navigation Bar
+│   └── wishlist/          # Customer wishlist
+├── guards/                # Route protection (authGuard, roleGuard)
+├── models/                # TypeScript interfaces (User, Product, Cart, Order)
+├── services/              # API services (AuthService, UserService, ProductService, etc.)
+└── app.routes.ts          # Angular application route definitions
 ```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

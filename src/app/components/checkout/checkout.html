@@ -1,0 +1,164 @@
+<div class="min-h-screen bg-linear-to-br from-gray-400 via-gray-300 to-gray-700 pb-12">
+    <app-navbar></app-navbar>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="py-8">
+            <h1 class="text-gray-800 font-extrabold text-4xl">
+                Checkout
+            </h1>
+            <p class="text-gray-800 mt-2 font-semibold">Complete the order by filling your Shipping address</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <div class="bg-gray-50 shadow-lg rounded-2xl p-6">
+                    <h2 class="text-gray-600 font-semibold mb-5">
+                        Shipping Information
+                    </h2>
+                    @if (orderError()) {
+                        <div class="mb-5 p-4 rounded-xl bg-red-100 border border-red-300 text-red-700 text-sm font-medium flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{{ orderError() }}</span>
+                        </div>
+                    }
+                    <form [formGroup]="checkOutForm" (ngSubmit)="onSubmitForm()">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" formControlName="fullName" placeholder="Enter your Full Name" class="shipping-input-field"
+                                [class.border-red-500]="formControl['fullName'].invalid && formControl['fullName'].touched"
+                                >
+                                @if(formControl['fullName'].invalid && formControl['fullName'].touched){
+                                    @if(formControl['fullName'].errors?.['required']) {
+                                        <p class="text-red-500 text-sm mt-1">FullName is required</p>
+                                    } @else if(formControl['fullName'].errors?.['minlength']) {
+                                        <p class="text-red-500 text-sm mt-1">Minimum 3 characters required</p>
+                                    }
+                                    
+                                }
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" formControlName="email" placeholder="Enter your email address" class="shipping-input-field"
+                                [class.border-red-500]="formControl['email'].invalid && formControl['email'].touched"
+                                >
+                                @if(formControl['email'].invalid && formControl['email'].touched){
+                                    @if(formControl['email'].errors?.['required']) {
+                                        <p class="text-red-500 text-sm mt-1">Email is required</p>
+                                    } @else if(formControl['email'].errors?.['email']) {
+                                        <p class="text-red-500 text-sm mt-1">Enter valid email id</p>
+                                    }
+                                    
+                                }
+                            </div>
+                        </div>
+                            
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mt-4">Phone Number</label>
+                            <input type="text" formControlName="phone" placeholder="Enter your phone number" class="shipping-input-field"
+                            [class.border-red-500]="formControl['phone'].invalid && formControl['phone'].touched"
+                            >
+                            @if(formControl['phone'].invalid && formControl['phone'].touched){
+                                    <p class="text-red-500 text-sm mt-1">Phone Number is required</p>
+                                }
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mt-4">Street Address</label>
+                            <input type="text" formControlName="addressLine" placeholder="Enter your address" class="shipping-input-field"
+                            [class.border-red-500]="formControl['addressLine'].invalid && formControl['addressLine'].touched"
+                            >
+                            @if(formControl['addressLine'].invalid && formControl['addressLine'].touched){
+                                    <p class="text-red-500 text-sm mt-1">Street Address is required</p>
+                                }
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 mt-4">City</label>
+                                <input type="text" formControlName="city" placeholder="Enter your city" class="shipping-input-field"
+                                [class.border-red-500]="formControl['city'].invalid && formControl['city'].touched"
+                                >
+                                @if(formControl['city'].invalid && formControl['city'].touched){
+                                    <p class="text-red-500 text-sm mt-1">City is required</p>
+                                }
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 mt-4">State</label>
+                                <input type="text" formControlName="state" placeholder="Enter your state" class="shipping-input-field"
+                                [class.border-red-500]="formControl['state'].invalid && formControl['state'].touched"
+                                >
+                                @if(formControl['state'].invalid && formControl['state'].touched){
+                                    <p class="text-red-500 text-sm mt-1">State is required</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mt-4">Pincode</label>
+                            <input type="text" formControlName="pinCode" placeholder="Enter your pincode" class="shipping-input-field"
+                            [class.border-red-500]="formControl['pinCode'].invalid && formControl['pinCode'].touched"
+                            >
+                            @if(formControl['pinCode'].invalid && formControl['pinCode'].touched){
+                                    <p class="text-red-500 text-sm mt-1">Pincode is required</p>
+                                }
+                        </div>
+                        <div class="mt-6">
+                            <button type="submit"
+                            [disabled]="isPlacingOrder() || totalCartAmount() <= 0"
+                            class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                                @if (isPlacingOrder()) {
+                                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span>Processing Payment...</span>
+                                } @else {
+                                    <span>Pay ₹{{ totalCartAmount() }} to Proceed</span>
+                                }
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white shadow-lg rounded-2xl p-6">
+                    <h2 class="text-xl text-gray-800 font-bold mb-4">Order Summary</h2>
+                    @if (isLoading()) {
+                        <div class="py-8 text-center text-gray-500">Loading cart summary...</div>
+                    } @else if (cartList() && (cartList()?.items?.length ?? 0) > 0) {
+                        <div>
+                            @for(item of cartList()?.items ?? []; track item.id) {
+                                <div class="flex justify-between items-center py-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">
+                                            {{ item.productTitle }}
+                                        </p>
+                                        <p class="text-sm text-gray-500">
+                                            Qty: {{ item.quantity }}
+                                        </p>
+                                    </div>
+                                    <span class="font-semibold text-gray-700">
+                                        ₹{{ (item.productPrice || 0) * (item.quantity || 1) }}
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                        <div class="mt-4 pt-3 border-t">
+                            <div class="flex justify-between items-center text-gray-600">
+                                <span class="font-medium">Subtotal</span>
+                                <span class="font-bold text-2xl text-gray-950">₹{{ totalCartAmount() }}</span>
+                            </div>
+                        </div>
+                    } @else {
+                        <div class="py-8 text-center text-gray-500">
+                            Your cart is empty.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

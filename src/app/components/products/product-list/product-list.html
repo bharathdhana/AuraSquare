@@ -1,0 +1,121 @@
+<div class="min-h-screen bg-linear-to-br from-gray-400 via-gray-300 to-gray-700 pb-12">
+    <app-navbar></app-navbar>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="py-8">
+            <h1 class="text-gray-800 font-extrabold text-4xl">
+                Products
+            </h1>
+        </div>
+
+        @if(isLoading()) {
+            <div class="flex justify-center items-center py-20">
+                <div class="spinner"></div>
+            </div>
+        }
+
+        @if(errorMessage()) {
+            <div class="text-red-500 text-center p-4 border border-red-300 rounded-xl bg-red-50 my-4">
+                {{ errorMessage() }}
+            </div>
+        }
+
+        @if(!isLoading() && products().length > 0) {
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                @for(product of products(); track product.id) {
+                    <div class="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-md border border-gray-100 hover:shadow-lg transition-all duration-200">
+                        <div class="relative">
+                            <img [src]="product.imageUrl" [alt]="product.title"
+                                class="aspect-3/2 w-full cursor-pointer bg-gray-100 p-3 object-contain transition-transform duration-300 hover:scale-105">
+                            <button (click)="toggleWishlist(product.id)"
+                                class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md hover:bg-white transition-all cursor-pointer"
+                                [title]="isInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    [class.text-red-500]="isInWishlist(product.id)"
+                                    [class.text-gray-500]="!isInWishlist(product.id)"
+                                    [class.fill-red-500]="isInWishlist(product.id)"
+                                    [class.fill-none]="!isInWishlist(product.id)"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-5 h-5 text-red-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-1 flex-col p-4">
+                            <h3 class="text-gray-900 text-lg mb-1 cursor-pointer font-semibold hover:text-blue-600 transition-colors">
+                                {{ product.title }} {{ product.model }}
+                            </h3>
+                            <p class="text-gray-500 text-xs mb-2">
+                                {{ product.brand }} &bull; {{ product.category }}
+                            </p>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                {{ product.description }}
+                            </p>
+                            <div class="mb-4 mt-auto flex items-baseline justify-between">
+                                <span class="text-2xl text-blue-600 font-extrabold">₹ {{ product.price }}</span>
+                            </div>
+                            <button (click)="addToCart(product.id)" [disabled]="addingProductId() === product.id"
+                                type="button" class="second-btn cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="h-5 w-5 shrink-0 text-current">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                </svg>
+                                @if(addingProductId() === product.id) { Adding... } @else { Add to Cart }
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if(!isLoading() && !errorMessage() && products().length === 0) {
+            <div class="text-center justify-center mt-14">
+                <h3 class="text-gray-600 p-8 font-medium text-2xl">
+                    No products available right now.
+                </h3>
+            </div>
+        }
+    </div>
+
+
+    <div class="fixed bottom-5 right-5 z-50 flex flex-col space-y-3 max-w-sm w-full pointer-events-none px-4 sm:px-0">
+        @for(toast of toasts(); track toast.id) {
+            <div class="toast-slide-in pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border border-gray-100 shadow-2xl text-gray-900 overflow-hidden relative">
+                @if(toast.type === 'success') {
+                    <div class="shrink-0 w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                        </svg>
+                    </div>
+                } @else {
+                    <div class="shrink-0 w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center shadow-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9 3.75h.008v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                }
+
+                <div class="flex-1 min-w-0 pr-6">
+                    <h4 class="font-bold text-sm text-gray-900 mb-0.5">{{ toast.title }}</h4>
+                    <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed">{{ toast.message }}</p>
+                    @if(toast.type === 'success') {
+                        <a routerLink="/cart" class="inline-flex items-center text-xs font-bold text-emerald-600 hover:text-emerald-700 mt-2 transition-colors">
+                            View Cart
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5 ml-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    }
+                </div>
+
+                <button (click)="removeToast(toast.id)" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        }
+    </div>
+</div>
