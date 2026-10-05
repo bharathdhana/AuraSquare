@@ -13,7 +13,7 @@ A modern, responsive e-commerce web application built with **Angular**, **TypeSc
 ### 1. User Registration (`/auth/register`)
 Allows new users to create an account by filling out their personal details, selecting a role, and setting up secure credentials.
 
-![User Registration](../screenshots/Screenshot%20(81).png)
+![User Registration](../screenshots/Screenshot(81).png)
 
 ### 2. User Login (`/auth/login`)
 Enables existing users to securely sign in to their AuraSquare account using JWT-based authentication.
