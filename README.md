@@ -9,7 +9,9 @@ A full-featured, responsive e-commerce web application built with **Angular**, *
 ### 1. User Registration (`/auth/register`)
 Allows new users to create an account by filling out their personal details, selecting a role (Customer or Seller), and setting up secure credentials.
 
-![User Registration](../screenshots/register.png)
+<p align="center">
+  <img src="screenshots/register" alt="User Login" width="90%" />
+</p>
 
 ### 2. User Login (`/auth/login`)
 Enables existing users to securely sign in to their AuraSquare account using JWT-based authentication.
