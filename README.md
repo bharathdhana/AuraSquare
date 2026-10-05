@@ -10,7 +10,7 @@ A full-featured, responsive e-commerce web application built with **Angular**, *
 Allows new users to create an account by filling out their personal details, selecting a role (Customer or Seller), and setting up secure credentials.
 
 <p align="center">
-  <img src="screenshots/register" alt="User Login" width="90%" />
+  <img src="screenshots/register.png" alt="User Register" width="90%" />
 </p>
 
 ### 2. User Login (`/auth/login`)
