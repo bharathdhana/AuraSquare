@@ -19,6 +19,7 @@ export class WishlistComponent implements OnInit {
 
   readonly wishListItems = signal<WishlistItem[]>([]);
   readonly isLoading = signal<boolean>(false);
+  readonly errorMessage = signal<string>('');
   readonly addingProductId = signal<number | null>(null);
   readonly removingItemId = signal<number | null>(null);
 
@@ -28,21 +29,32 @@ export class WishlistComponent implements OnInit {
 
   loadWishlist(): void {
     this.isLoading.set(true);
+    this.errorMessage.set('');
+
     this.wishlistService.getWishlist().subscribe({
       next: (res) => {
         const items = res?.wishlistItems || res?.items || [];
-        this.wishListItems.set(Array.isArray(items) ? items : []);
+        const validItems = (Array.isArray(items) ? items : []).filter((item) => {
+          if (!item) return false;
+          const p = item.product ?? item;
+          return !!(p.id || item.id || item.productId || p.title);
+        });
+        this.wishListItems.set(validItems);
         this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Failed to load wishlist:', err);
-        this.wishListItems.set([]);
         this.isLoading.set(false);
+        const serverError = err.error?.message || (typeof err.error === 'string' ? err.error : '');
+        this.errorMessage.set(
+          serverError || 'Unable to load wishlist. Please check backend service connection.'
+        );
       },
     });
   }
 
   getProduct(item: WishlistItem): Partial<Product> & Partial<WishlistItem> {
+    if (!item) return {};
     return item.product ?? item;
   }
 
@@ -81,16 +93,18 @@ export class WishlistComponent implements OnInit {
       next: (res) => {
         this.removingItemId.set(null);
         const items = res?.wishlistItems || res?.items || [];
-        if (Array.isArray(items)) {
-          this.wishListItems.set(items);
-        } else {
-          this.loadWishlist();
-        }
+        const validItems = (Array.isArray(items) ? items : []).filter((item) => {
+          if (!item) return false;
+          const p = item.product ?? item;
+          return !!(p.id || item.id || item.productId || p.title);
+        });
+        this.wishListItems.set(validItems);
       },
       error: (err) => {
         this.removingItemId.set(null);
         console.error('Failed to remove item from wishlist:', err);
-        this.wishListItems.set(previousItems);
+        // Retain optimistic removal if item was invalid on server
+        this.wishListItems.set(previousItems.filter((i) => i.id !== itemId));
       },
     });
   }
